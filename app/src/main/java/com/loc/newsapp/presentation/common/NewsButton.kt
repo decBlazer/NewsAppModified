@@ -9,11 +9,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.TextButton
+import com.loc.newsapp.ui.theme.WhiteGray
 
 @Composable
 fun NewsButton(
     text: String,
-    onClick:() -> Unit
+    onClick: () -> Unit
 ) {
 
     Button(
@@ -23,9 +25,23 @@ fun NewsButton(
         ),
         shape = RoundedCornerShape(size = 6.dp)
     ) {
-        Text (
+        Text(
             text = text,
             style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold)
+        )
+    }
+}
+
+@Composable
+fun NewsTextButton(
+    text: String,
+    onClick: () -> Unit
+) {
+    TextButton(onClick = onClick) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
+            color = WhiteGray
         )
     }
 }
