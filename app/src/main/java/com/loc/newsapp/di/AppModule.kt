@@ -27,7 +27,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideLocalUserManger(
+    fun provideLocalUserManager(
         application: Application
     ): LocalUserManager = LocalUserMangerImpl(context = application)
 
@@ -42,7 +42,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideApiInstance(): NewsAPI {
+    fun provideAPIInstance(): NewsAPI {
         return Retrofit
             .Builder()
             .baseUrl(BASE_URL)
