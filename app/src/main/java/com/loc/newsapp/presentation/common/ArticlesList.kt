@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.presentation.onboarding.Dimens.ExtraSmallPadding2
