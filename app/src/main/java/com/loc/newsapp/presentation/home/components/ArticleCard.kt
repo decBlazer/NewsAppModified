@@ -29,10 +29,10 @@ import coil.request.ImageRequest
 import com.loc.newsapp.R
 import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.domain.model.Source
-import com.loc.newsapp.presentation.Dimens.ArticleCardSize
-import com.loc.newsapp.presentation.Dimens.ExtraSmallPadding
-import com.loc.newsapp.presentation.Dimens.ExtraSmallPadding2
-import com.loc.newsapp.presentation.Dimens.SmallIconSize
+import com.loc.newsapp.presentation.onboarding.Dimens.ArticleCardSize
+import com.loc.newsapp.presentation.onboarding.Dimens.ExtraSmallPadding
+import com.loc.newsapp.presentation.onboarding.Dimens.ExtraSmallPadding2
+import com.loc.newsapp.presentation.onboarding.Dimens.SmallIconSize
 import com.loc.newsapp.ui.theme.NewsAppTheme
 
 @Composable

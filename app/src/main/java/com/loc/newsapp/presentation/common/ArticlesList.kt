@@ -12,10 +12,9 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import com.loc.newsapp.domain.model.Article
-import com.loc.newsapp.presentation.Dimens.ExtraSmallPadding2
-import com.loc.newsapp.presentation.Dimens.MediumPadding1
-import com.loc.newsapp.presentation.home.components.ArticleCard
+import com.loc.newsapp.presentation.onboarding.Dimens.ExtraSmallPadding2
 import com.loc.newsapp.presentation.onboarding.Dimens.MediumPadding1
+import com.loc.newsapp.presentation.home.components.ArticleCard
 
 @Composable
 fun ArticlesList(
