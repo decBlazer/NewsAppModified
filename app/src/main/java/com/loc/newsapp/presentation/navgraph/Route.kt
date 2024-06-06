@@ -1,4 +1,4 @@
-package com.loc.newsapp.presentation.nvgraph
+package com.loc.newsapp.presentation.navgraph
 
 sealed class Route(
     val route: String
