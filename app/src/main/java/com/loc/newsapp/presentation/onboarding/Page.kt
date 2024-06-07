@@ -4,9 +4,9 @@ import androidx.annotation.DrawableRes
 import com.loc.newsapp.R
 
 data class Page(
-    val title:String,
+    val title: String,
     val description: String,
-    @DrawableRes val image: Int
+    @DrawableRes val image: Int,
 )
 
 val pages = listOf(

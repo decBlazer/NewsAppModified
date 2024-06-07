@@ -1,5 +1,6 @@
 package com.loc.newsapp.data.manger
 
+import android.app.Application
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -11,19 +12,20 @@ import com.loc.newsapp.util.Constants
 import com.loc.newsapp.util.Constants.USER_SETTINGS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class LocalUserMangerImpl(
-    private val context: Context
+class LocalUserManagerImplementation @Inject constructor(
+    private val application: Application
 ) : LocalUserManager {
 
     override suspend fun saveAppEntry() {
-        context.dataStore.edit { settings ->
+        application.dataStore.edit { settings ->
             settings[PreferenceKeys.APP_ENTRY] = true
         }
     }
 
     override fun readAppEntry(): Flow<Boolean> {
-        return context.dataStore.data.map { preferences ->
+        return application.dataStore.data.map { preferences ->
             preferences[PreferenceKeys.APP_ENTRY] ?: false
         }
     }

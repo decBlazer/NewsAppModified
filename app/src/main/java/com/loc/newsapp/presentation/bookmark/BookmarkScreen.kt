@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.loc.newsapp.R
 import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.presentation.common.ArticlesList
-import com.loc.newsapp.presentation.onboarding.Dimens.MediumPadding1
+import com.loc.newsapp.presentation.Dimens.MediumPadding1
 
 @Composable
 fun BookmarkScreen(

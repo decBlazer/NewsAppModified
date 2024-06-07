@@ -26,13 +26,16 @@ import com.loc.newsapp.R
 import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.presentation.common.ArticlesList
 import com.loc.newsapp.presentation.common.SearchBar
-import com.loc.newsapp.presentation.navgraph.Route
-import com.loc.newsapp.presentation.onboarding.Dimens.MediumPadding1
+import com.loc.newsapp.presentation.Dimens
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(articles: LazyPagingItems<Article>, navigate:(String) -> Unit) {
+fun HomeScreen(
+    articles: LazyPagingItems<Article>,
+    navigateToSearch: () -> Unit,
+    navigateToDetails: (Article) -> Unit
+) {
 
     val titles by remember {
         derivedStateOf {
@@ -49,7 +52,7 @@ fun HomeScreen(articles: LazyPagingItems<Article>, navigate:(String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = MediumPadding1)
+            .padding(top = Dimens.MediumPadding1)
             .statusBarsPadding()
     ) {
         Image(
@@ -58,42 +61,38 @@ fun HomeScreen(articles: LazyPagingItems<Article>, navigate:(String) -> Unit) {
             modifier = Modifier
                 .width(150.dp)
                 .height(30.dp)
-                .padding(horizontal = MediumPadding1)
+                .padding(horizontal = Dimens.MediumPadding1)
         )
 
-        Spacer(modifier = Modifier.height(MediumPadding1))
+        Spacer(modifier = Modifier.height(Dimens.MediumPadding1))
 
         SearchBar(
             modifier = Modifier
-                .padding(horizontal = MediumPadding1)
+                .padding(horizontal = Dimens.MediumPadding1)
                 .fillMaxWidth(),
             text = "",
             readOnly = true,
             onValueChange = {},
             onSearch = {},
-            onClick = {
-                navigate(Route.SearchScreen.route)
-            }
+            onClick = navigateToSearch
         )
 
-        Spacer(modifier = Modifier.height(MediumPadding1))
+        Spacer(modifier = Modifier.height(Dimens.MediumPadding1))
 
         Text(
             text = titles, modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = MediumPadding1)
+                .padding(start = Dimens.MediumPadding1)
                 .basicMarquee(), fontSize = 12.sp,
             color = colorResource(id = R.color.placeholder)
         )
 
-        Spacer(modifier = Modifier.height(MediumPadding1))
+        Spacer(modifier = Modifier.height(Dimens.MediumPadding1))
 
         ArticlesList(
-            modifier = Modifier.padding(horizontal = MediumPadding1),
+            modifier = Modifier.padding(horizontal = Dimens.MediumPadding1),
             articles = articles,
-            onClick = {
-                navigate(Route.DetailsScreen.route)
-            }
+            onClick = navigateToDetails
         )
     }
 }

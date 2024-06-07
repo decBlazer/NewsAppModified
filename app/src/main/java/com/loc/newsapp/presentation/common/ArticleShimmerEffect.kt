@@ -23,8 +23,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.loc.newsapp.R
-import com.loc.newsapp.presentation.onboarding.Dimens
-import com.loc.newsapp.presentation.onboarding.Dimens.MediumPadding1
+import com.loc.newsapp.presentation.Dimens
+import com.loc.newsapp.presentation.Dimens.MediumPadding1
 
 fun Modifier.shimmerEffect() = composed {
     val transition = rememberInfiniteTransition()

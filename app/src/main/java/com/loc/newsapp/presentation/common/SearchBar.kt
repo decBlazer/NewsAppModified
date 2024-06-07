@@ -28,7 +28,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.loc.newsapp.R
-import com.loc.newsapp.presentation.onboarding.Dimens.IconSize
+import com.loc.newsapp.presentation.Dimens.IconSize
 import com.loc.newsapp.ui.theme.NewsAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,7 +78,7 @@ fun SearchBar(
             shape = MaterialTheme.shapes.medium,
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = colorResource(id = R.color.input_background),
-                focusedTextColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                textColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
                 cursorColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
                 disabledIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent,
