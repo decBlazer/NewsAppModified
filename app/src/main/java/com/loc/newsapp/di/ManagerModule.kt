@@ -10,9 +10,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class MangerModule {
+abstract class ManagerModule {
 
     @Binds
     @Singleton
-    abstract fun bindLocalUserManger(localUserManagerImplementation: LocalUserManagerImplementation) : LocalUserManager
+    abstract fun bindLocalUserManager(localUserManagerImplementation: LocalUserManagerImplementation) : LocalUserManager
 }

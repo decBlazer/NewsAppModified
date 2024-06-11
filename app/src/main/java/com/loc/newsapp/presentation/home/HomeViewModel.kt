@@ -13,11 +13,21 @@ class HomeViewModel @Inject constructor(
     private val getNewsUseCase: GetNews
 ): ViewModel() {
 
+    private var defaultSources = listOf("bbc-news","abc-news","al-jazeera-english")
+    private var sportsSources = listOf("espn", "bleacher-report")
     var state = mutableStateOf(HomeState())
         private set
 
-    val news = getNewsUseCase(
-        sources = listOf("bbc-news","abc-news","al-jazeera-english")
+    var news = getNewsUseCase(
+        sources = switchNews()
     ).cachedIn(viewModelScope)
+        private set
 
+    private var count = 0
+    fun switchNews(): List<String> {
+        val sourcesToUse = if (count % 2 == 0) defaultSources else sportsSources
+        news = getNewsUseCase(sources = sourcesToUse).cachedIn(viewModelScope)
+        count++
+        return sourcesToUse
+    }
 }

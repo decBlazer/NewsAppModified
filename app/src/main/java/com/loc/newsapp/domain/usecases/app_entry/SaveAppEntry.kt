@@ -4,11 +4,11 @@ import com.loc.newsapp.domain.manager.LocalUserManager
 import javax.inject.Inject
 
 class SaveAppEntry @Inject constructor(
-    private val localUserManger: LocalUserManager
+    private val localUserManager: LocalUserManager
 ) {
 
     suspend operator fun invoke(){
-        localUserManger.saveAppEntry()
+        localUserManager.saveAppEntry()
     }
 
 }
