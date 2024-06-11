@@ -62,6 +62,8 @@ fun HomeScreen(
         sourceToUse = viewModel.switchNews()
     }
 
+    val count = viewModel.getCount()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -101,12 +103,11 @@ fun HomeScreen(
                 .fillMaxWidth()
         ) {
             Text(
-                text = if (sourceToUse == listOf(
-                        "bbc-news",
-                        "abc-news",
-                        "al-jazeera-english"
-                    )
-                ) "Global News" else "Sports"
+                text = if (count % 2 == 0) {
+                    "Global News"
+                } else {
+                    "Sports"
+                }
             )
         }
 

@@ -32,7 +32,6 @@ import com.loc.newsapp.presentation.news_navigator.components.BottomNavigationIt
 import com.loc.newsapp.presentation.news_navigator.components.NewsBottomNavigation
 import com.loc.newsapp.presentation.search.SearchScreen
 import com.loc.newsapp.presentation.search.SearchViewModel
-import androidx.paging.compose.collectAsLazyPagingItems
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,7 +99,7 @@ fun NewsNavigator() {
         ) {
             composable(route = Route.HomeScreen.route) { backStackEntry ->
                 val viewModel: HomeViewModel = hiltViewModel()
-                val articles = viewModel.news.collectAsLazyPagingItems()
+                val articles = viewModel.articles.collectAsLazyPagingItems()
                 HomeScreen(
                     articles = articles,
                     navigateToSearch = {
