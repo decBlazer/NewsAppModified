@@ -1,19 +1,19 @@
 package com.loc.newsapp.data.repository
 
+import NewsPagingSourceKtor
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.loc.newsapp.data.local.NewsDao
-import com.loc.newsapp.data.remote.NewsAPI
-import com.loc.newsapp.data.remote.NewsPagingSource
-import com.loc.newsapp.data.remote.SearchNewsPagingSource
+import com.loc.newsapp.data.remote.SearchNewsPagingSourceKtor
 import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.domain.repository.NewsRepository
+import io.ktor.client.HttpClient
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(
-    private val newsAPI: NewsAPI,
+    private val httpClient: HttpClient,
     private val newsDao: NewsDao
 ) : NewsRepository {
 
@@ -21,7 +21,7 @@ class NewsRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
-                NewsPagingSource(newsAPI = newsAPI, sources = sources.joinToString(separator = ","))
+                NewsPagingSourceKtor(httpClient = httpClient, sources = sources)
             }
         ).flow
     }
@@ -30,10 +30,11 @@ class NewsRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
-                SearchNewsPagingSource(
-                    newsAPI = newsAPI,
+                SearchNewsPagingSourceKtor(
+                    httpClient = httpClient,
                     searchQuery = searchQuery,
-                    sources = sources.joinToString(separator = ",")
+                    sources = sources.toString(),
+                    apiKey ="c5154edadbe64a0da23b8035c6aef5e9"
                 )
             }
         ).flow

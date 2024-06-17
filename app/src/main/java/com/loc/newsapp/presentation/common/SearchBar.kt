@@ -78,7 +78,6 @@ fun SearchBar(
             shape = MaterialTheme.shapes.medium,
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = colorResource(id = R.color.input_background),
-                textColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
                 cursorColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
                 disabledIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent,
