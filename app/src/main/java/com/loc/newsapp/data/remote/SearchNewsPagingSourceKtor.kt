@@ -4,14 +4,13 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.loc.newsapp.data.remote.dto.NewsResponse
 import com.loc.newsapp.domain.model.Article
-import io.ktor.client.*
-import io.ktor.client.request.*
+import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
-import io.ktor.http.*
-import io.ktor.http.ContentType.Application.Json
+import io.ktor.http.isSuccess
 import io.ktor.util.InternalAPI
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 
@@ -30,22 +29,28 @@ class SearchNewsPagingSourceKtor(
     }
 
     @OptIn(InternalAPI::class)
-    suspend fun fetchNews(pageNumber: Int): LoadResult<Int, Article>? {
-        val url = "https://newsapi.org/v2/everything?" +
-                "apiKey=c5154edadbe64a0da23b8035c6aef5e9" +
-                searchQuery + // Add search query if needed
-                "sources=your-sources&" + // Add sources if needed
-                "page=$pageNumber"
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
+        val currentPage = params.key ?: 1
 
         return try {
-            val response: HttpResponse = httpClient.get(url)
+            val response: HttpResponse = httpClient.get("https://newsapi.org/v2/everything") {
+                parameter("apiKey", apiKey)
+                parameter("q", searchQuery)
+                parameter("sources", sources)
+                parameter("page", currentPage)
+            }
+
             if (response.status.isSuccess()) {
                 val jsonString = response.bodyAsText()
                 val newsResponse = Json.decodeFromString<NewsResponse>(jsonString)
+                val articles = newsResponse.articles
+
+                val nextPage = if (articles.isNotEmpty()) currentPage + 1 else null
+
                 LoadResult.Page(
-                    data = newsResponse.articles,
-                    prevKey = if (pageNumber == 1) null else pageNumber - 1,
-                    nextKey = if (newsResponse.articles.isEmpty()) null else pageNumber + 1
+                    data = articles,
+                    prevKey = if (currentPage == 1) null else currentPage - 1,
+                    nextKey = nextPage
                 )
             } else {
                 LoadResult.Error(Exception("HTTP Error: ${response.status}"))
@@ -53,9 +58,5 @@ class SearchNewsPagingSourceKtor(
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
-    }
-
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
-        TODO("Not yet implemented")
     }
 }

@@ -1,3 +1,4 @@
+
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.loc.newsapp.data.remote.dto.NewsResponse
@@ -12,9 +13,11 @@ class   NewsPagingSourceKtor(
     private val sources: List<String>
 ) : PagingSource<Int, Article>() {
 
+    private var totalNewsCount = 0
+
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         return try {
-            val currentPage = params.key ?: 1 // Start with page 1 if no key is provided
+            val currentPage = params.key ?: 1
             val response =
                 httpClient.get("https://newsapi.org/v2/everything?apiKey=c5154edadbe64a0da23b8035c6aef5e9") {
                     parameter("sources", sources.joinToString(","))
@@ -23,13 +26,13 @@ class   NewsPagingSourceKtor(
                 }
 
             val newsResponse: NewsResponse = response.body()
-            val articles = newsResponse.articles
+            val articles = newsResponse.articles.distinctBy { it.title }
+            totalNewsCount += newsResponse.articles.size
 
-            val nextPage = if (articles.isNotEmpty()) currentPage + 1 else null
             LoadResult.Page(
                 data = articles,
-                prevKey = if (currentPage == 1) null else currentPage - 1,
-                nextKey = nextPage
+                prevKey = null,
+                nextKey = if (totalNewsCount == newsResponse.totalResults) null else currentPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
