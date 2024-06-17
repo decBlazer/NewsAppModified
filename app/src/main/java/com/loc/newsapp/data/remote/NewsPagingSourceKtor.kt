@@ -19,7 +19,7 @@ class   NewsPagingSourceKtor(
         return try {
             val currentPage = params.key ?: 1
             val response =
-                httpClient.get("https://newsapi.org/v2/everything?apiKey=c5154edadbe64a0da23b8035c6aef5e9") {
+                httpClient.get("https://newsapi.org/v2/top-headlines/sources?apiKey=c5154edadbe64a0da23b8035c6aef5e9") {
                     parameter("sources", sources.joinToString(","))
                     parameter("page", currentPage)
                     // Add other necessary parameters like API key, page size, etc.
