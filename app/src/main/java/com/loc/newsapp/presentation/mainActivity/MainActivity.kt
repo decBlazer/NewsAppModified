@@ -18,6 +18,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.loc.newsapp.presentation.navgraph.NavGraph
 import com.loc.newsapp.ui.theme.NewsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.request.post
+import io.ktor.client.statement.HttpResponse
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -46,4 +50,12 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+
+suspend fun main() {
+    val client = HttpClient(CIO)
+    val response: HttpResponse = client.post("https://newsapi.org/v2/everything?q=soccer&apiKey=c5154edadbe64a0da23b8035c6aef5e9")
+    println(response.status)
+    client.close()
 }

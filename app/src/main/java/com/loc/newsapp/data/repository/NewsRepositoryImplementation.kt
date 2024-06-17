@@ -4,24 +4,42 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.loc.newsapp.data.local.NewsDao
-import com.loc.newsapp.data.remote.NewsAPI
-import com.loc.newsapp.data.remote.NewsPagingSource
-import com.loc.newsapp.data.remote.SearchNewsPagingSource
+import com.loc.newsapp.data.remote.NewsPagingSourceKtor
+import com.loc.newsapp.data.remote.SearchNewsPagingSourceKtor
 import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.domain.repository.NewsRepository
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.http.ContentType.Application.Json
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
+import java.util.concurrent.Flow
 
 class NewsRepositoryImpl @Inject constructor(
-    private val newsAPI: NewsAPI,
     private val newsDao: NewsDao
 ) : NewsRepository {
+
+    private val httpClient = HttpClient(CIO) {
+        install(ContentNegotiation) {
+            json(Json {
+                ignoreUnknownKeys = true
+            })
+        }
+    }
 
     override fun getNews(sources: List<String>): Flow<PagingData<Article>> {
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
-                NewsPagingSource(newsAPI = newsAPI, sources = sources.joinToString(separator = ","))
+                NewsPagingSourceKtor(httpClient, sources)
             }
         ).flow
     }
@@ -30,11 +48,7 @@ class NewsRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = 10),
             pagingSourceFactory = {
-                SearchNewsPagingSource(
-                    newsAPI = newsAPI,
-                    searchQuery = searchQuery,
-                    sources = sources.joinToString(separator = ",")
-                )
+                SearchNewsPagingSourceKtor(httpClient, searchQuery, sources)
             }
         ).flow
     }
