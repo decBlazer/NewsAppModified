@@ -32,7 +32,7 @@ fun ArticlesList(
         items(
             count = articles.size,
         ) {
-            articles[it]?.let { article ->
+            articles[it].let { article ->
                 ArticleCard(article = article, onClick = { onClick(article) })
             }
         }

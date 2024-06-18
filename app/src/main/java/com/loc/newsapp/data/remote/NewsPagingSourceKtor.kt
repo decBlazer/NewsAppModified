@@ -1,4 +1,6 @@
+package com.loc.newsapp.data.remote
 
+import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.loc.newsapp.data.remote.dto.NewsResponse
@@ -6,9 +8,11 @@ import com.loc.newsapp.domain.model.Article
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.isSuccess
+import io.ktor.utils.io.errors.IOException
 
-class   NewsPagingSourceKtor(
+class NewsPagingSourceKtor(
     private val httpClient: HttpClient,
     private val sources: List<String>
 ) : PagingSource<Int, Article>() {
@@ -19,22 +23,27 @@ class   NewsPagingSourceKtor(
         return try {
             val currentPage = params.key ?: 1
             val response =
-                httpClient.get("https://newsapi.org/v2/top-headlines/sources?apiKey=c5154edadbe64a0da23b8035c6aef5e9") {
-                    parameter("sources", sources.joinToString(","))
-                    parameter("page", currentPage)
+                httpClient.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=c5154edadbe64a0da23b8035c6aef5e9") {
                     // Add other necessary parameters like API key, page size, etc.
                 }
 
-            val newsResponse: NewsResponse = response.body()
-            val articles = newsResponse.articles.distinctBy { it.title }
-            totalNewsCount += newsResponse.articles.size
+            if (response.status.isSuccess()) {
+                System.out.println("Success")
+                val newsResponse: NewsResponse = response.body()
+                val articles = newsResponse.articles.distinctBy { it.title }
+                val totalResults = newsResponse.totalResults
 
-            LoadResult.Page(
-                data = articles,
-                prevKey = null,
-                nextKey = if (totalNewsCount == newsResponse.totalResults) null else currentPage + 1
-            )
+                LoadResult.Page(
+                    data = articles,
+                    prevKey = if (currentPage == 1) null else currentPage - 1,
+                    nextKey = if (articles.isEmpty() || totalResults <= currentPage * PAGE_SIZE) null else currentPage + 1
+                )
+            } else {
+                System.out.println("Failure")
+                LoadResult.Error(IOException("Error response ${response.status}: ${response.bodyAsText()}"))
+            }
         } catch (e: Exception) {
+            e.printStackTrace()
             LoadResult.Error(e)
         }
     }

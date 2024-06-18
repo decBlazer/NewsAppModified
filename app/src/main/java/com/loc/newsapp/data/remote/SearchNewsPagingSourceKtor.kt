@@ -6,7 +6,6 @@ import com.loc.newsapp.data.remote.dto.NewsResponse
 import com.loc.newsapp.domain.model.Article
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.isSuccess
@@ -33,12 +32,7 @@ class SearchNewsPagingSourceKtor(
         val currentPage = params.key ?: 1
 
         return try {
-            val response: HttpResponse = httpClient.get("https://newsapi.org/v2/everything") {
-                parameter("apiKey", apiKey)
-                parameter("q", searchQuery)
-                parameter("sources", sources)
-                parameter("page", currentPage)
-            }
+            val response: HttpResponse = httpClient.get("https://newsapi.org/v2/top-headlines?q=$searchQuery&apiKey=$apiKey")
 
             if (response.status.isSuccess()) {
                 val jsonString = response.bodyAsText()

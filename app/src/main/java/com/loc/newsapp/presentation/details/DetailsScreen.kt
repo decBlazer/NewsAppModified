@@ -102,20 +102,24 @@ fun DetailsScreen(
                     contentScale = ContentScale.Crop
                 )
                 Spacer(modifier = Modifier.height(MediumPadding1))
-                Text(
-                    text = article.title,
-                    style = MaterialTheme.typography.displaySmall,
-                    color = colorResource(
-                        id = R.color.text_title
+                article.title?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.displaySmall,
+                        color = colorResource(
+                            id = R.color.text_title
+                        )
                     )
-                )
-                Text(
-                    text = article.content,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = colorResource(
-                        id = R.color.body
+                }
+                article.content?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = colorResource(
+                            id = R.color.body
+                        )
                     )
-                )
+                }
             }
         }
     }

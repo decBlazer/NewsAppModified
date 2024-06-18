@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +54,7 @@ fun SearchBar(
     }
 
     Box(modifier = modifier) {
+        val containerColor = colorResource(id = R.color.input_background)
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -77,12 +79,16 @@ fun SearchBar(
             },
             shape = MaterialTheme.shapes.medium,
             colors = TextFieldDefaults.textFieldColors(
-                containerColor = colorResource(id = R.color.input_background),
+                focusedTextColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                containerColor = containerColor,
                 cursorColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                selectionColors = LocalTextSelectionColors.current,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
+                focusedLeadingIconColor = colorResource(id = R.color.body),
+                focusedPlaceholderColor = colorResource(id = R.color.placeholder)
             ),
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),

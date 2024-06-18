@@ -4,7 +4,8 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
     id 'kotlin-parcelize'
-
+    id 'org.jetbrains.kotlin.plugin.compose' version '2.0.0'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '2.0.0'
 }
 
 android {
@@ -46,7 +47,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = "2.0.0"
     }
     packagingOptions {
         resources {
@@ -84,8 +85,8 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:2.7.7"
 
     //Dagger Hilt
-    implementation "com.google.dagger:hilt-android:2.49"
-    kapt "com.google.dagger:hilt-compiler:2.45"
+    implementation "com.google.dagger:hilt-android:2.51.1"
+    kapt "com.google.dagger:hilt-compiler:2.51.1"
     implementation 'androidx.hilt:hilt-navigation-compose:1.2.0'
 
 
@@ -114,6 +115,7 @@ dependencies {
     def room_version = "2.5.2"
     implementation "androidx.room:room-runtime:2.6.1"
     kapt "androidx.room:room-compiler:2.6.1"
+    kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0"
     implementation "androidx.room:room-ktx:2.6.1"
 
     //KTOR
@@ -123,4 +125,11 @@ dependencies {
     //Kotlinx Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
+    //KTOR Content negotiation
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.11")
+
+    // JSON Serialization
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.11")
+
+    implementation("io.ktor:ktor-serialization:2.3.11")
 }

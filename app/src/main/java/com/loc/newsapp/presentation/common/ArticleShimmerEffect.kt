@@ -34,7 +34,7 @@ fun Modifier.shimmerEffect() = composed {
             repeatMode = RepeatMode.Reverse
         )
     ).value
-    background(color = colorResource(id = R.color.shimmer).copy(alpha = alpha))
+    this.background(color = colorResource(id = R.color.shimmer).copy(alpha = alpha))
 }
 
 @Composable

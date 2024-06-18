@@ -1,10 +1,10 @@
 package com.loc.newsapp.data.repository
 
-import NewsPagingSourceKtor
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.loc.newsapp.data.local.NewsDao
+import com.loc.newsapp.data.remote.NewsPagingSourceKtor
 import com.loc.newsapp.data.remote.SearchNewsPagingSourceKtor
 import com.loc.newsapp.domain.model.Article
 import com.loc.newsapp.domain.repository.NewsRepository
